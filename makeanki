@@ -1,9 +1,12 @@
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
 import genanki
 import re
+import os
 
 outputfile = 'output.apkg'
 cloze_regexp = re.compile(r""".*\{\{c\d{1,2}::.+\}\}.*""")
-
+anki_file = 'anki.txt'
 def is_cloze(front):
     return cloze_regexp.search(front)
 
@@ -41,9 +44,13 @@ answer_model = generate_model(
     
 default_deck = genanki.Deck(1, 'Default')
 
-def make_deck():
+def main():
+    if not os.path.isfile(anki_file):
+        print(anki_file + " is not defined")
+        return 
+
     write_deck = default_deck
-    with open('anki.txt', 'r') as readfile:
+    with open(anki_file, 'r') as readfile:
         cloze_card = False
         lines = []
         
@@ -75,5 +82,8 @@ def make_deck():
                     
 
     genanki.Package(write_deck).write_to_file("output.apkg")
+    print(outputfile + " generated.")
 
-make_deck()
+    
+if __name__== '__main__':
+    main()

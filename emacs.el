@@ -15,13 +15,10 @@
 
 (define-key text-mode-map "\C-cc" 'cloze-word)
 
-(setq local-script-directory "~/.local/bin/")
-
 ;; creates a deck using the anki.py file
 (defun make-deck ()
   (interactive)
-  (shell-command (concat "python " local-script-directory "anki.py"))
-  (message "output.apkg successfully created.")
+  (message (shell-command-to-string "makeanki"))
   )
 
 (define-key text-mode-map "\C-cd" 'make-deck)
